@@ -90,3 +90,5 @@ kubeadm reset
 kubectl get pods
 
 
+# yum install --downloadonly --downloaddir=/data/k8s kubelet kubeadm kubectl  --disableexcludes=kubernetes 
+
