@@ -140,3 +140,5 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 
 
 
+# yum install --downloadonly --downloaddir=/data/k8s kubelet kubeadm kubectl  --disableexcludes=kubernetes 
+
