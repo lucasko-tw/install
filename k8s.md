@@ -64,10 +64,14 @@ kubeadm init --pod-network-cidr=10.244.0.0/16
 #kubeadm init --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=Swap --upload-certs
 #kubeadm init --apiserver-advertise-address=100.0.0.1 --pod-network-cidr=10.244.0.0/16
 
+kubeadm token create --print-join-command
+
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+# Untaint master node
+# kubectl taint nodes --all node-role.kubernetes.io/master-
 ```
 
 ### Installation for Worker
@@ -79,13 +83,15 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubeadm join 192.168.228.129:6443 --token a06ywl.rok8hzmbcgq0oq5n \
     --discovery-token-ca-cert-hash sha256:8309a44df2e10e031c363577782293073a04b801f579265f4aba15b95d57a0e4 
 
+export KUBECONFIG=/etc/kubernetes/kubelet.conf 
+kubectl get nodes
 ```
 
 
 ### Installation for Offline Machine
 
 ```
-### Offline On-Premise Kubernetes Installation 
+### Dump RPM files of kubernetes from Online machine
 yum install --downloadonly --downloaddir=/data/k8s kubelet kubeadm kubectl --disableexcludes=kubernetes
 ```
 
@@ -100,7 +106,7 @@ kubectl get pods --all-namespaces
 ```
 
 
-### Install Pod-Network
+### Install Pod-Network from Master Node
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
@@ -110,7 +116,7 @@ kubectl get nodes
 
 You will see, the node get ready.
 
-### Metallb Installation
+### Metallb Installation from Master Node
  
 ```
 
@@ -128,7 +134,7 @@ data:
       protocol: layer2
       auto-assign: true
       addresses:
-      - 10.244.132.150-10.244.132.200
+      - 192.168.132.150-192.168.132.200
 EOF
 
 
@@ -138,7 +144,13 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 ```
  
 
+### Deploy test App
 
+```
+kubectl create deployment --image=nginx nginx-app
+kubectl expose deploy nginx-app --port 8080 --target-port 80 --type LoadBalancer
 
-# yum install --downloadonly --downloaddir=/data/k8s kubelet kubeadm kubectl  --disableexcludes=kubernetes 
-
+NAME                 TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)          AGE
+service/kubernetes   ClusterIP      10.96.0.1       <none>           443/TCP          7h12m
+service/nginx-app    LoadBalancer   10.105.92.222   10.244.132.150   8080:30808/TCP   18s
+```
