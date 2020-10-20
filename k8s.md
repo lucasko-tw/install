@@ -128,7 +128,7 @@ data:
       protocol: layer2
       auto-assign: true
       addresses:
-      - 172.22.132.150-172.22.132.200
+      - 10.244.132.150-10.244.132.200
 EOF
 
 
