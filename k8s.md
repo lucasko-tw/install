@@ -95,6 +95,38 @@ kubectl get nodes
 yum install --downloadonly --downloaddir=/data/k8s kubelet kubeadm kubectl --disableexcludes=kubernetes
 ```
 
+```
+
+cd /data/rpm 
+
+wget http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/checkpolicy-2.9-1.el8.x86_64.rpm
+wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.3.7-3.1.el7.x86_64.rpm
+wget https://download.docker.com/linux/centos/8/x86_64/test/Packages/docker-ce-19.03.13-3.el8.x86_64.rpm
+wget https://download.docker.com/linux/centos/8/x86_64/test/Packages/docker-ce-cli-19.03.13-3.el8.x86_64.rpm
+wget http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/libcgroup-0.41-19.el8.x86_64.rpm
+wget http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/libseccomp-2.4.1-1.el8.x86_64.rpm
+wget http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/python3-libsemanage-2.9-2.el8.x86_64.rpm
+wget http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/policycoreutils-2.9-9.el8.x86_64.rpm
+wget http://mirror.centos.org/centos/7/os/x86_64/Packages/python-IPy-0.75-6.el7.noarch.rpm
+
+
+ls -ls 
+
+checkpolicy-2.9-1.el8.x86_64.rpm
+containerd.io-1.3.7-3.1.el7.x86_64.rpm
+docker-ce-19.03.13-3.el8.x86_64.rpm
+docker-ce-cli-19.03.13-3.el8.x86_64.rpm
+libcgroup-0.41-19.el8.x86_64.rpm
+libseccomp-2.4.1-1.el8.x86_64.rpm
+policycoreutils-2.9-9.el8.x86_64.rpm
+python3-libsemanage-2.9-2.el8.x86_64.rpm
+python-IPy-0.75-6.el7.noarch.rpm
+
+yum --disablerepo=\* --enablerepo=c8-media-BaseOS,c8-media-AppStream install container-selinux libsemanage audit-libs policycoreutils python36 python2
+
+rpm -ivh --replacefiles --replacepkgs *.rpm
+```
+
 ### Debug
 
 ```
