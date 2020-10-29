@@ -1,5 +1,35 @@
 
+### multiple with
 
+```
+
+
+WITH x1  AS (
+    SELECT * FROM T1
+) , 
+x2 as
+(
+SELECT * FROM 
+    (
+        SELECT P,L, M, count(M) over(partition by P,L) as count_
+        FROM 
+        ( SELECT DISTINCT P,L,M
+        FROM T1 
+      
+        )
+        ORDER BY 4,1,2
+    )
+) , x3 as (
+        SELECT P,L, M, sum( NVL(RC, 0)) over(partition by P,L,M) as sum_
+        FROM T1 
+)
+SELECT distinct x1.P,x1.L, x1.M,x2.count_ , x3.sum_
+FROM x1,x2,x3
+WHERE   x1.M = x2.M
+AND     x1.M = x3.M
+order by 1 desc ,2 desc , 3 
+
+```
 
 
 ### Remove duplicate
