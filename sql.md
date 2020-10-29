@@ -14,14 +14,14 @@ SELECT * FROM
         SELECT P,L, M, count(M) over(partition by P,L) as count_
         FROM 
         ( SELECT DISTINCT P,L,M
-        FROM T1 
+          FROM T1 WHERE P IN ( SELECT P FROM x1 )
       
         )
         ORDER BY 4,1,2
     )
 ) , x3 as (
         SELECT P,L, M, sum( NVL(RC, 0)) over(partition by P,L,M) as sum_
-        FROM T1 
+        FROM T1 WHERE P IN ( SELECT P FROM x1 )
 )
 SELECT distinct x1.P,x1.L, x1.M,x2.count_ , x3.sum_
 FROM x1,x2,x3
