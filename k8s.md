@@ -143,7 +143,7 @@ kubectl get pods --all-namespaces
 ```
 
 
-### Install Network Plugin
+### Install Network Plugin (Calico)
 
 ```
 curl https://docs.projectcalico.org/manifests/calico.yaml -O
