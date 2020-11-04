@@ -1,5 +1,11 @@
 ### https://docs.docker.com/engine/install/centos/
 
+
+### Create a network for Vmware/VirtualBox
+
+The network range is from 192.168.56.0/16
+
+
 ### Disable
 ```
 vim /etc/fstab
@@ -59,10 +65,9 @@ sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 sudo systemctl enable --now kubelet
 
 
-kubeadm init --pod-network-cidr=10.244.0.0/16
 
-#kubeadm init --pod-network-cidr=192.168.0.0/16 --ignore-preflight-errors=Swap --upload-certs
-#kubeadm init --apiserver-advertise-address=100.0.0.1 --pod-network-cidr=10.244.0.0/16
+kubeadm init
+
 
 kubeadm token create --print-join-command
 
@@ -138,12 +143,12 @@ kubectl get pods --all-namespaces
 ```
 
 
-### Install Pod-Network from Master Node
+### Install Network Plugin
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+curl https://docs.projectcalico.org/manifests/calico.yaml -O
 
-kubectl get nodes	
+kubectl apply -f calico.yaml
 ```
 
 You will see, the node get ready.
@@ -166,7 +171,7 @@ data:
       protocol: layer2
       auto-assign: true
       addresses:
-      - 192.168.132.150-192.168.132.200
+      - 192.168.56.150-192.168.56.200
 EOF
 
 
@@ -182,7 +187,11 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 kubectl create deployment --image=nginx nginx-app
 kubectl expose deploy nginx-app --port 8080 --target-port 80 --type LoadBalancer
 
+curl 192.168.56.150:8080
+
+
+curl
 NAME                 TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)          AGE
 service/kubernetes   ClusterIP      10.96.0.1       <none>           443/TCP          7h12m
-service/nginx-app    LoadBalancer   10.105.92.222   10.244.132.150   8080:30808/TCP   18s
+service/nginx-app    LoadBalancer   10.105.92.222   192.168.56.150   8080:30808/TCP   18s
 ```
