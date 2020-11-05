@@ -1,3 +1,26 @@
+### sum top
+
+
+```sql
+select * from TEST_table ;
+
+WITH x1  AS (
+    SELECT  cu,team, RANK() over(partition by cu,team order by stage_order ) as  rn  , price 
+    FROM TEST_table 
+) , x2 as
+
+( select cu,team, max(rn) as index_S0 , max(rn)-5  as index_S4  from x1
+  group by cu,team
+)
+
+select x1.cu,x1.team,sum(x1.price) 
+from x1,x2
+where x1.cu = x2.cu and x1.team = x2.team 
+and  x1.rn > x2.index_S4
+group by x1.cu, x1.team
+
+```
+
 
 ### multiple with
 
