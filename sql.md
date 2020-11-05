@@ -24,8 +24,7 @@ group by x1.cu, x1.team
 
 ### multiple with
 
-```
-
+```sql
 
 WITH x1  AS (
     SELECT * FROM T1
@@ -56,7 +55,8 @@ order by 1 desc ,2 desc , 3
 
 
 ### Remove duplicate
-```
+
+```sql
 select rowid as rid, book_name, 
 row_number() over(partition by book_name  order by book_name ) rn from books ; 
 
@@ -97,7 +97,7 @@ java 2
 
 ### Distinct
 
-```
+```sql
 select distinct id from books; ## id will be sorted. (int)
 select distinct book_name from books;  ## name will not be sorted. (varchars)
 ```
