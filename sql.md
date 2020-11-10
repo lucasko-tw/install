@@ -61,6 +61,13 @@ SELECT 'AB' as item_name, sum(S1) as s1,sum(S2) s2 ,sum(S3) s3,sum(S4) s4, sum(S
 ```
 
 
+```sh
+ITE         S1         S2         S3         S4      TOTAL
+--- ---------- ---------- ---------- ---------- ----------
+AB           7          4          0          1         12
+ALL         10          8          3          2         23
+```
+
 
 ### sum top
 ```sql
