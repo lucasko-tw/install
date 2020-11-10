@@ -1,6 +1,68 @@
+### pivot
+```sql
+
+ DECLARE cnt NUMBER;
+  BEGIN
+    SELECT COUNT(*) INTO cnt FROM user_tables WHERE table_name = 'MY_TABLE';
+    IF cnt <> 0 THEN
+      EXECUTE IMMEDIATE 'DROP TABLE MY_TABLE';
+    END IF;
+  END;
+
+  CREATE TABLE "SYSTEM"."MY_TABLE" 
+   (	"ST" VARCHAR2(20 BYTE), 
+	"GD" VARCHAR2(20 BYTE), 
+	"SG" VARCHAR2(20 BYTE)
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+REM INSERTING into SYSTEM.MY_TABLE
+SET DEFINE OFF;
+
+
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a1','A','s1');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a1','B','s1');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a1','C','s2');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a1','D','s3');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a2','A','s4');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a2','A','s2');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('b1','B','s2');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('b1','C','s1');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('b1','C','s2');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('b1','A','s1');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('b1','B','s2');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('b2','C','s4');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('b2','E','s2');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a3','D','s3');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a3','D','s3');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('b1','B','s2');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('b1','C','s1');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('b1','C','s1');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a1','A','s1');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a1','A','s1');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a1','A','s1');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a1','C','s2');
+Insert into SYSTEM.MY_TABLE (ST,GD,SG) values ('a1','B','s1');
+
+with x1 as ( 
+
+SELECT GD,ST, s1,s2,s3,s4 from MY_TABLE 
+pivot (count(SG) for SG in ( 's1' as s1, 's2' as s2 , 's3' as s3 , 's4' as s4))
+order by GD,ST 
+
+)
+
+SELECT 'ALL' as item_name, sum(S1) as s1,sum(S2) s2 ,sum(S3) s3,sum(S4) s4, sum(S1)+sum(S2)+sum(S3)+sum(S4) as total   from x1 UNION
+SELECT 'AB' as item_name, sum(S1) as s1,sum(S2) s2 ,sum(S3) s3,sum(S4) s4, sum(S1)+sum(S2)+sum(S3)+sum(S4) as total   from x1  WHERE GD IN ('A','B')
+
+```
+
+
+
 ### sum top
-
-
 ```sql
 select * from TEST_table ;
 
