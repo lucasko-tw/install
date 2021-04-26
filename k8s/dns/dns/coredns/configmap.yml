@@ -18,8 +18,8 @@ data:
       proxy . 8.8.8.8:53
     }
 
-    k8s.rko.tw {
-      etcd k8s.rko.tw {
+    k8s.lucasko.tw {
+      etcd k8s.lucasko.tw {
         stubzones
         path /skydns
         endpoint http://coredns-etcd:2379
