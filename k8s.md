@@ -1,6 +1,7 @@
 ### https://docs.docker.com/engine/install/centos/
 
 
+
 ### Create a network for Vmware/VirtualBox
 
 The network range is from 192.168.56.0/16
@@ -224,4 +225,9 @@ systemctl status kubelet.service
 #kubeadm reset 
 kubectl get pods --all-namespaces
 
+```
+
+
+```sh
+# https://www.centlinux.com/2019/02/install-docker-ce-on-offline-centos-7-machine.html#point6
 ```
