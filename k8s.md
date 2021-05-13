@@ -231,3 +231,24 @@ kubectl get pods --all-namespaces
 ```sh
 # https://www.centlinux.com/2019/02/install-docker-ce-on-offline-centos-7-machine.html#point6
 ```
+
+yum install -y yum-utils device-mapper-persistent-data lvm2
+
+(1/16): audit-libs-python-2.8.5-4.el7.x86_64.rpm                                                                       |  76 kB  00:00:00     
+(2/16): checkpolicy-2.5-8.el7.x86_64.rpm                                                                               | 295 kB  00:00:00     
+(3/16): container-selinux-2.119.2-1.911c772.el7_8.noarch.rpm                                                           |  40 kB  00:00:00     
+warning: /var/cache/yum/x86_64/7/docker-ce-stable/packages/containerd.io-1.4.4-3.1.el7.x86_64.rpm: Header V4 RSA/SHA512 Signature, key ID 621e9f35: NOKEY
+Public key for containerd.io-1.4.4-3.1.el7.x86_64.rpm is not installed
+(4/16): containerd.io-1.4.4-3.1.el7.x86_64.rpm                                                                         |  33 MB  00:00:04     
+(5/16): docker-ce-20.10.6-3.el7.x86_64.rpm                                                                             |  27 MB  00:00:06     
+(6/16): docker-ce-rootless-extras-20.10.6-3.el7.x86_64.rpm                                                             | 9.2 MB  00:00:01     
+(7/16): fuse3-libs-3.6.1-4.el7.x86_64.rpm                                                                              |  82 kB  00:00:00     
+(8/16): fuse-overlayfs-0.7.2-6.el7_8.x86_64.rpm                                                                        |  54 kB  00:00:00     
+(9/16): libsemanage-python-2.5-14.el7.x86_64.rpm                                                                       | 113 kB  00:00:00     
+(10/16): docker-ce-cli-20.10.6-3.el7.x86_64.rpm                                                                        |  33 MB  00:00:04     
+(11/16): python-IPy-0.75-6.el7.noarch.rpm                                                                              |  32 kB  00:00:00     
+(12/16): docker-scan-plugin-0.7.0-3.el7.x86_64.rpm                                                                     | 4.2 MB  00:00:00     
+(13/16): policycoreutils-python-2.5-34.el7.x86_64.rpm                                                                  | 457 kB  00:00:00     
+(14/16): slirp4netns-0.4.3-4.el7_8.x86_64.rpm                                                                          |  81 kB  00:00:00     
+(15/16): setools-libs-3.3.8-4.el7.x86_64.rpm                                                                           | 620 kB  00:00:00     
+(16/16): libcgroup-0.41-21.el7.x86_64.rpm           
