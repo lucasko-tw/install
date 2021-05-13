@@ -1,12 +1,4 @@
-#FROM wlsadmin:12.1.3
 FROM centos:7
-##############################################################
-# Dockerfile Version:   0.1
-# Software:             -
-# Software Version:     -
-# Software Website:     -
-# Description:          Base Centos7 with XFCE Desktop and VNC
-##############################################################
 
 ENV DISPLAY=:1
 ENV VNC_PORT=5901
@@ -16,7 +8,7 @@ EXPOSE $VNC_PORT
 ENV HOME=/comics \
     VNC_RES=1280x1024 \
     VNC_COL_DEPTH=24 \
-    VNC_PSSWRD=myvncpassword \
+    VNC_PSSWRD=lucas1234 \
     VNC_VIEWONLY=false
 WORKDIR $HOME
 
@@ -25,6 +17,7 @@ RUN yum update -y ; \
 	yum install -y epel-release ; \
     yum install -y git     \
                    make    \
+                   vim	   \
                    net-tools \
                    nss_wrapper \
                    sudo \
