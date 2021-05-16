@@ -13,8 +13,7 @@ ENV HOME=/comics \
 WORKDIR $HOME
 
 USER root
-RUN yum update -y ; \
-	yum install -y epel-release ; \
+RUN yum install -y epel-release ; \
     yum install -y git     \
                    make    \
                    vim	   \
@@ -30,39 +29,9 @@ RUN yum update -y ; \
     yum erase -y *power* *screensaver* ; \
     rm /etc/xdg/autostart/xfce-polkit* ; \
     /bin/dbus-uuidgen > /etc/machine-id ; \
-    yum update -y ; \
     yum clean all ;
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 
-ENTRYPOINT ["/bin/bash","/usr/local/bin/docker-entrypoint.sh"]
-# FROM consol/centos-xfce-vnc
-
-# USER root
-# RUN  yum-config-manager --disable tigervnc-el7 && \
-# 	 yum install -y glibc.i686 && \
-# 	 yum install -y java-1.8.0-openjdk
-
-# FROM centos:7
-#
-#
-# RUN yum install epel-release -y
-#
-# RUN yum groupinstall "Server with GUI" -y
-#
-# RUN yum groupinstall "Xfce" -y
-#
-# RUN systemctl get-default
-#
-# RUN systemctl set-default graphical.target
-#
-# RUN systemctl get-default
-#
-# RUN yum install httpd httpd-devel -y
-#
-#
-#
-# RUN
-#
-#
+#ENTRYPOINT ["/bin/bash","/usr/local/bin/docker-entrypoint.sh"]
