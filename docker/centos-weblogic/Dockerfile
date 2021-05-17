@@ -32,7 +32,7 @@ ENV  PATH=$JAVA_HOME/bin:$PATH
 
 COPY ./fmw_12.2.1.3.0_wls_quick.jar /u01/app/oracle/product/
 COPY ./jdk-8u171-linux-x64.tar.gz /tmp/
-COPY ./sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm /tmp/
+#COPY ./sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm /tmp/
 USER oracle
 RUN  tar -xvzf /tmp/jdk-8u171-linux-x64.tar.gz -C $ORACLE_BASE && \
   	 cd /u01/app/oracle/product/ && \

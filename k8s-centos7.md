@@ -1,4 +1,8 @@
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+yum install --installroot=/tmp/yumrepo --releasever=/ --downloadonly --downloaddir=$(pwd)  --disableexcludes=all  kubelet
+
+
 ```
 ===========================================================================================================================================================
  Package                                       Arch                          Version                               Repository                         Size
