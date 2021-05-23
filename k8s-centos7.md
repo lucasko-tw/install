@@ -39,3 +39,40 @@ sudo sysctl --system
 
 
 ```
+
+
+```
+# 允許 containers 連到 host
+setenforce 0
+sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
+
+
+
+##
+swapoff -a
+# 如果 /etc/fstab 有掛載 swap，必須要註解掉，不然重開機時又會重新掛載 swap
+sed -i 's/.*swap.*/#&/' /etc/fstab
+
+
+reboot
+
+systemctl enable kubelet
+systemctl start kubelet
+
+kubeadm init 
+
+
+mkdir -p /home/centos/.kube
+sudo cp -i /etc/kubernetes/admin.conf /home/centos/.kube/config
+sudo chown centos:centos /home/centos/.kube/config
+
+su centos
+
+kubectl get nodes
+
+```
+
+
+```
+https://blog.johnwu.cc/article/kubernetes-exercise.html
+```

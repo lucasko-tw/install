@@ -1,4 +1,4 @@
-
+# yum install --installroot=/tmp/yumrepo --releasever=/ --downloadonly --downloaddir=$(pwd)  --disableexcludes=all  java-1.8.0-openjdk 
 docker run --rm -it -p5901:5901 -p8080:8080 -p5900:5900 -p6901:6901 centos:weblogic   
 
 
