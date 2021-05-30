@@ -41,6 +41,17 @@ sudo yum install -y docker-ce-3:19.03.13-3.el8 docker-ce-cli-19.03.13  container
 sudo systemctl start docker
 sudo systemctl enable docker
 
+
+/etc/docker/daemon.json 
+{
+    "insecure-registries": [
+        "192.168.228.147:8082"
+    ]
+}
+
+systemctl daemon-reload
+systemctl restart docker
+
 ```
 
 ### Install Kubernetes on Master

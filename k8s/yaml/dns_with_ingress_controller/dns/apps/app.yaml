@@ -4,10 +4,10 @@ metadata:
   name: tomcat8
 spec:
   rules:
-  - host: test.k8s.rko.tw
+  - host: tomcat8.rko.com/
     http:
       paths:
-      - path: /
+      - path: /*
         pathType: Prefix
         backend:
           service:
