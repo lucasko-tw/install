@@ -73,6 +73,19 @@ kubectl get nodes
 ```
 
 
+
+```
+vim /etc/kubernetes/manifests/kube-apiserver.yaml
+
+- command:
+ - kube-apiserver
+ - --feature-gates=RemoveSelfLink=false
+
+```
+
+
+
+
 ```
 https://blog.johnwu.cc/article/kubernetes-exercise.html
 ```

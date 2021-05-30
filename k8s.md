@@ -76,6 +76,9 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+systemctl enable kubelet
+systemctl start kubelet
+
 kubectl get nodes
 
 # Untaint master node
@@ -110,7 +113,7 @@ data:
       protocol: layer2
       auto-assign: true
       addresses:
-      - 192.168.56.150-192.168.56.200
+      - 192.168.228.150-192.168.228.200
 EOF
 
 
@@ -123,8 +126,8 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 ### Deploy test App
 
 ```
-kubectl create deployment --image=nginx nginx-app
-kubectl expose deploy nginx-app --port 8080 --target-port 80 --type LoadBalancer
+kubectl create deployment --image=nginx nginx-app2
+kubectl expose deploy nginx-app2 --port 8081 --target-port 80 --type LoadBalancer
 
 curl 192.168.56.150:8080
 
