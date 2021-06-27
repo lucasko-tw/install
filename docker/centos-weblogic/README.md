@@ -1,6 +1,11 @@
 # yum install --installroot=/tmp/yumrepo --releasever=/ --downloadonly --downloaddir=$(pwd)  --disableexcludes=all  java-1.8.0-openjdk 
 docker run --rm -it -p5901:5901 -p8080:8080 -p5900:5900 -p6901:6901 centos:weblogic   
 
+## Eclipse offered by Oracle
+https://www.oracle.com/tools/downloads/oepe-v12219-downloads.html
+
+
+### 
 
 /opt/eclipse/eclipse  -application org.eclipse.equinox.p2.director  -repository https://download.eclipse.org/glassfish-tools/1.0.0/repository/  -installIU org.eclipse.glassfish.tools.feature.group
 

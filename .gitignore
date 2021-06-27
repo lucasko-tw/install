@@ -7,3 +7,4 @@
 *.zip
 sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm
 docker/centos-weblogic/sqldeveloper*.rpm
+jdk-8u171-linux-x64.rpm
