@@ -1,0 +1,1 @@
+https://www.metricfire.com/blog/logging-for-kubernetes-fluentd-and-elasticsearch/
