@@ -1,4 +1,4 @@
-k apply -f  ./metrics-server/
+k apply -k  ./metrics-server/
 
 https://github.com/kubernetes-sigs/metrics-server/tree/master/manifests/base
 
