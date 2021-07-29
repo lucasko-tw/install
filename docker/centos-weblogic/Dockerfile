@@ -41,33 +41,35 @@ RUN chown oracle:oinstall -R /opt/ & \
     chown oracle:oinstall -R $ORACLE_BASE
 
 
-# Install Weblogic 12.2.1.3
-USER oracle
-COPY ./fmw_12.2.1.3.0_wls_quick.jar /u01/app/oracle/product/
-RUN  cd /u01/app/oracle/product/ && \
-	 java -jar /u01/app/oracle/product/fmw_12.2.1.3.0_wls_quick.jar
-
-## install eclipse and weblogic plugins
-USER root
-RUN chown oracle:oinstall -R /opt && \
-  	chown oracle:oinstall -R /u01 && \
-	rm -rf /u01/app/oracle/product/fmw_12.2.1.3.0_wls_quick.jar
-	#rm -rf /tmp/sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm
-
-##
-#COPY ./eclipse-jee-photon-R-linux-gtk-x86_64_p.tar.gz /opt/
-#RUN cd /opt/ 											&& \
-#	tar zxvf eclipse-jee-photon-R-linux-gtk-x86_64_p.tar.gz && \
-#	rm -rf /opt/eclipse-jee-photon-R-linux-gtk-x86_64_p.tar.gz
-
-COPY ./oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip /opt/
-
-RUN cd /opt/ && \
+COPY ./oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip /opt/eclipse/
+RUN cd /opt/eclipse && \
 	unzip oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip && \
-	rm -rf /opt/oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip
+	rm -rf /opt/eclipse/oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip
+
+#
+# COPY ./sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm /tmp/
+# RUN rpm -Uvh /tmp/sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm  & \
+# 	rm -rf /tmp/sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm
 
 
-COPY ./sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm /tmp/
-RUN rpm -Uvh /tmp/sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm  & \
-	rm -rf /tmp/sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm
+# # Install Weblogic 12.2.1.3
+# USER oracle
+# COPY ./fmw_12.2.1.3.0_wls_quick.jar /u01/app/oracle/product/
+# RUN  cd /u01/app/oracle/product/ && \
+# 	 java -jar /u01/app/oracle/product/fmw_12.2.1.3.0_wls_quick.jar
+#
+# ## install eclipse and weblogic plugins
+# USER root
+# RUN chown oracle:oinstall -R /opt && \
+#   	chown oracle:oinstall -R /u01 && \
+# 	rm -rf /u01/app/oracle/product/fmw_12.2.1.3.0_wls_quick.jar
 
+COPY ./wls1033_dev/      /opt/wls1033_dev/
+COPY ./user_projects.tar /opt/wls1033_dev/
+env MW_HOME=/opt/wls1033_dev
+RUN /opt/wls1033_dev/configure.sh && \
+	tar zxvf /opt/wls1033_dev/user_projects.tar -C /opt/wls1033_dev/
+
+COPY ./zulu6.22.0.3-jdk6.0.119-linux_x64.tar.gz /tmp/
+RUN tar zxvf /tmp/zulu6.22.0.3-jdk6.0.119-linux_x64.tar.gz -C /opt/ && \
+	rm -rf /tmp/zulu6.22.0.3-jdk6.0.119-linux_x64.tar.gz
