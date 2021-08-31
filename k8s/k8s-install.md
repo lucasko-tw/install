@@ -1,13 +1,10 @@
 ### https://docs.docker.com/engine/install/centos/
 
-
-
 ### Create a network for Vmware/VirtualBox
 
 The network range is from 192.168.56.0/16
 
-
-### Disable
+### Pre-requirements
 ```
 vim /etc/fstab
     ## comment swap
@@ -15,16 +12,22 @@ vim /etc/fstab
 vim /etc/selinux/config
     SELINUX=disabled
 
-reboot 
-
 sudo firewall-cmd --state
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
 #sudo systemctl disable iptables
 #sudo systemctl stop iptables
 sudo swapoff -a
+sudo sysctl -w vm.max_map_count=262144
 
+reboot 
 ```
+
+```sh
+vim /etc/sysctl.conf
+vm.max_map_count=262144
+```
+
 
 ### Install Docker
 
@@ -42,13 +45,14 @@ sudo systemctl start docker
 sudo systemctl enable docker
 
 
+
+
 /etc/docker/daemon.json 
 {
     "insecure-registries": [
         "192.168.228.147:8082"
     ]
 }
-
 systemctl daemon-reload
 systemctl restart docker
 
@@ -57,7 +61,6 @@ systemctl restart docker
 ### Install Kubernetes on Master
 
 ```
-
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -164,6 +167,8 @@ kubectl get nodes
 ```
 
 
+
+
 ### DNS
 
 ```
@@ -246,6 +251,10 @@ kubectl get pods --all-namespaces
 # https://www.centlinux.com/2019/02/install-docker-ce-on-offline-centos-7-machine.html#point6
 ```
 
+
+
+
+
 yum install -y yum-utils device-mapper-persistent-data lvm2
 
 (1/16): audit-libs-python-2.8.5-4.el7.x86_64.rpm                                                                       |  76 kB  00:00:00     
@@ -266,3 +275,19 @@ Public key for containerd.io-1.4.4-3.1.el7.x86_64.rpm is not installed
 (14/16): slirp4netns-0.4.3-4.el7_8.x86_64.rpm                                                                          |  81 kB  00:00:00     
 (15/16): setools-libs-3.3.8-4.el7.x86_64.rpm                                                                           | 620 kB  00:00:00     
 (16/16): libcgroup-0.41-21.el7.x86_64.rpm           
+
+
+
+### k8s master HA
+https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
+
+
+https://www.akiicat.com/2019/04/26/Kubernetes/kubernetes-reinstall-on-ubuntu/
+ journalctl - u kubelet
+ sudo swapoff -a
+ sudo sed -i '/ swap / s/^/#/' /etc/fstab
+ iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
+ 
+ 
+### Prometheus
+https://github.com/prometheus-operator/kube-prometheus.git 
