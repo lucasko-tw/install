@@ -9,6 +9,10 @@ services:
     hostname: localhost
     container_name: gitlab
     restart: always
+    #volumes:
+    #  - /tmp/config:/etc/gitlab:Z
+    #  - /tmp/logs:/var/log/gitlab:Z
+    #  - /tmp/data:/var/opt/gitlab:Z \
     ports:
       - 443:443
       - 80:80
