@@ -1,0 +1,1 @@
+docker run --rm -it -e REMOTE_HOST=192.168.0.12 -e REMOTE_PORT=6901 -p 8081:8081 javanile/novnc 
