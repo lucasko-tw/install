@@ -1,4 +1,8 @@
 ```
+docker run -it  -p 21:21 --name myftp -p 21000-21010:21000-21010  -e USERS="lucas|12345678" delfer/alpine-ftp-server
+```
+
+```
 package test;
 
 import java.io.File;
@@ -20,7 +24,7 @@ public class MyFTP {
 
 		  
 		  MyFTP my = new MyFTP ();
-		  my.upload("/Users/lucasko/Downloads/swagger.zip", "/home/root/");
+		  my.upload("/tmp/log.log", "/home/root/");
 		  System.out.println("done");
 	
 		
@@ -43,7 +47,7 @@ public class MyFTP {
     }
     
     
-    public void upload(String src , String dest) throws IOException,FileNotFoundException {
+    public boolean upload(String src , String dest) throws IOException,FileNotFoundException {
     	
     	File srcFile = new File(src);
     	if(! srcFile.exists())
@@ -60,11 +64,18 @@ public class MyFTP {
 
     	try {
     		
-    		ftpClient.connect("localhost");
-    		ftpClient.login("root", "123456");
-        	//ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-        	//ftpClient.enterLocalPassiveMode();
+    		ftpClient.connect("127.0.0.1");
+    		ftpClient.login("lucas", "12345678");
 
+	       	 int reply = ftpClient.getReplyCode();
+	       	 System.out.println("reply="+reply);
+       	 
+
+        	ftpClient.setFileType(FTP.ASCII_FILE_TYPE);
+        	//ftpClient.setFileTransferMode(ftpClient.ASCII_FILE_TYPE);
+        	//ftpClient.enterLocalActiveMode();
+        	ftpClient.enterLocalPassiveMode();
+        	
     	    //
     	    // Create an InputStream of the file to be uploaded
     	    //
@@ -73,22 +84,22 @@ public class MyFTP {
     	    //
     	    // Store file to server
     	    //
-    	    boolean done = ftpClient.storeFile( new File(dest, srcFile.getName() ).getAbsolutePath(), fis);
+    	    boolean done = ftpClient.storeFile( "/ftp/lucas/log.log", fis);
     	    System.out.println("done="+done);
     	    ftpClient.logout();
     	} catch (IOException e) {
     	System.out.println(e.getMessage());
     	  throw new IOException ();
     	} finally {
-    	    try {
-    	        if (fis != null) {
-    	            fis.close();
+    	    if (ftpClient != null && ftpClient.isConnected()) {
+    	        try {
+    	        	ftpClient.disconnect();
+    	        } catch (IOException ioe) {
+    	          // do nothing
     	        }
-    	        ftpClient.disconnect();
-    	    } catch (IOException e) {
-    	        e.printStackTrace();
     	    }
     	}
+		return false;
     	
     	
     }
@@ -133,7 +144,5 @@ public class MyFTP {
 	}
 	
 }
-
-
 
 ```
