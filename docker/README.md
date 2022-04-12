@@ -22,7 +22,7 @@ docker run -it --rm -p 8080:8080 -p 9990:9990 --name myboss  jboss/wildfly:8.2.1
 
 /opt/jboss/wildfly/bin/add-user.sh
 
-docker cp /Users/lucasko/code/docker/jboss-wildfly/ojdbc7.jar myboss:/tmp/
+docker cp  /Users/lucasko/code/github.com/install/docker/jboss-wildfly/modules/ojdbc7.jar myjboss:/tmp/ 
 
 # Create JBOSS module with JDBC driver
 module add --name=com.oracle --resources=/tmp/ojdbc7.jar --dependencies=javax.api,javax.transaction.api
@@ -33,10 +33,12 @@ module add --name=com.oracle --resources=/tmp/ojdbc7.jar --dependencies=javax.ap
 # Create datasource
 data-source add --jndi-name=java:jboss/datasources/OracleDS --name=OraclePool --connection-url=jdbc:oracle:thin:@192.168.0.10:1521:orcl --driver-name=oracle --password=1qaz@WSX1234 --user-name=system
 
+jdbc:oracle:thin:@192.168.0.10:1521:orcl
+
+jdbc:oracle:thin:@192.168.0.10:1521/orcl
+
 # Enable created datasource
 data-source enable --name=OracleDS
-
-
 
 ### show image details
 ```
