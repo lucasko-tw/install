@@ -36,3 +36,13 @@ install_tfswitch:
 #https://www.jetbrains.com/help/idea/working-with-the-ide-features-from-command-line.html#standalone
 ##!/bin/sh
 #open -na "IntelliJ IDEA CE.app" --args "$@"
+
+install_git_gh_on_linux:
+	# for amazon linux
+	VERSION=`curl  "https://api.github.com/repos/cli/cli/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/' | cut -c2-`
+	echo $VERSION
+	### With wget ###
+	wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_linux_amd64.tar.gz
+	tar xvf gh_${VERSION}_linux_amd64.tar.gz
+	sudo cp gh_${VERSION}_linux_amd64/bin/gh /usr/local/bin/
+	gh version
