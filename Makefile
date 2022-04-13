@@ -17,10 +17,10 @@ install_fzf:
 	$(GITHUB_DIR)/fzf.git/install --all
 
 install_brew:
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 install_aws_vault:
-    brew cask install aws-vault
+	brew cask install aws-vault
 
 install_brew_list:
 	brew update
@@ -29,7 +29,7 @@ install_brew_list:
 	brew install zsh
 
 install_tfswitch:
-    brew install tfswitch
+	brew install tfswitch
 # install_git_secret:
 #     brew install git-secret
 #setup idea
@@ -46,3 +46,9 @@ install_git_gh_on_linux:
 	tar xvf gh_${VERSION}_linux_amd64.tar.gz
 	sudo cp gh_${VERSION}_linux_amd64/bin/gh /usr/local/bin/
 	gh version
+
+aws/sync/s3/upload:
+	aws s3 sync --exclude "*" --include "*.zip" --include "*.jar" --include "*.tar" --include "*.rpm"  ./ s3://lucasko-cicd-bucket/
+
+aws/sync/s3/download:
+	aws s3 sync s3://lucasko-cicd-bucket/ ./
