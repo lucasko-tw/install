@@ -1,10 +1,11 @@
 web:
-  container_name: php7_apache_oci8
-  build: .
+  container_name: php5apache_oci8
+  #build: .
+  image: php:5.5-oci8-2.0.12-apache
   ports:
     - "80:80"
   volumes:
-    - ./src:/var/www/html/
+    - ./html:/var/www/html/
     - ./conf/apache:/etc/apache2/sites-enabled/
-    # - ./conf/php:/usr/local/etc/php/
+    - ./conf/php:/usr/local/etc/php/
 
