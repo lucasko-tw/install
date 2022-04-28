@@ -21,7 +21,7 @@ send "No\r"
 expect "Do you wish to bypass"
 send "Yes\r"
 
-expect "Provide your email address for security updates "
+expect "Provide your email address for security updates"
 send "Next\r"
 
 expect "Select the type of installation you wish to perform"
