@@ -21,7 +21,7 @@ send "No\r"
 expect "Do you wish to bypass"
 send "Yes\r"
 
-expect "Provide your email address for security updates"
+expect "Provide your email address for security updates "
 send "Next\r"
 
 expect "Select the type of installation you wish to perform"
@@ -30,8 +30,8 @@ send "1\r"
 expect "JDK(s) chosen will be installed"
 send "Next\r"
 
-expect "Product Installation Directories"
-send "1\r"
+#expect "Product Installation Directories"
+#send "\r"
 
 expect "/opt/Oracle/Middleware/wlserver_10.3"
 send "Next\r"

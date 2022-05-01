@@ -1,17 +1,11 @@
-FROM consol/centos-xfce-vnc
+#FROM consol/centos-xfce-vnc
 #FROM centos:7
-#FROM centos:xfce
+FROM centos:novnc
 
 USER root
-RUN groupadd -g 1000 user01							&& \
-    useradd -u 1000 -g user01 user01				&& \
-	mkdir -p /opt/oracle/product/					&& \
-	mkdir -p /opt/oracle/config/domains				&& \
-	mkdir -p /opt/oracle/config/applications		&& \
-	chown -R user01:user01 /opt						&& \
-	chmod -R 775 /opt							    && \
-	rm -rf /etc/yum.repos.d/tigervnc.repo			&& \
-	yum install -y git unzip zip telnet ftp rsync gzip vim wget rsh make
+RUN rm -rf /etc/yum.repos.d/tigervnc.repo			&& \
+	yum install -y git unzip zip telnet ftp rsync gzip vim wget rsh make vim spawn expect && \
+	yum clean all -y
 
 # ENV  ORACLE_BASE=/opt/oracle
 # ENV  ORACLE_HOME=$ORACLE_BASE/product/12.2.1.3
@@ -31,12 +25,7 @@ RUN groupadd -g 1000 user01							&& \
 # RUN chown user01:user01 -R /opt/ & \
 #     chown user01:user01 -R $ORACLE_BASE & \
 #     rm -rf /tmp/jdk-8u171-linux-x64.tar.gz
-    
-# Install Eclipse
-COPY ./oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip /opt/eclipse/
-RUN cd /opt/eclipse && \
-	unzip oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip && \
-	rm -rf /opt/eclipse/oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip
+
 
 #
 # COPY ./sqldeveloper-20.4.1.407.0006-20.4.1-407.0006.noarch.rpm /tmp/
@@ -63,12 +52,34 @@ RUN cd /opt/eclipse && \
 RUN yum install -y java-1.8.0-openjdk
 
 # # Install Weblogic 10.3.6
-USER 1000
-COPY ./wls1036_generic.jar /opt/oracle/product/
-RUN  cd /opt/oracle/product/ && \
- java -jar /opt/oracle/product/wls1036_generic.jar
+# USER 1000
+COPY ./wls1036_generic.jar /opt/
+COPY ./install_wls.sh /opt/
+COPY ./create_domain.sh /opt/
+RUN  cd /opt/ && expect ./install_wls.sh && \
+ 	 mkdir /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.x86_64/bin	&& \
+     ln -s /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.x86_64/jre/bin/java /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-1.el7_9.x86_64/bin/java && \
+	 rm -rf /opt/wls1036_generic.jar	&& \
+	 /opt/create_domain.sh				&& \
+	 sed -i 's/x86_64/x86_64\/jre/' /opt/Oracle/Middleware/user_projects/domains/base_domain/bin/setDomainEnv.sh  && \
+	 rm -rf /opt/create_domain.sh
+
 
 USER root
-RUN chown 1000:1000 -R /opt && \
-	rm -rf /opt/oracle/product/wls1036_generic.jar && \
-    yum clean all -y
+# Install Eclipse
+COPY ./oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip /opt/eclipse/
+COPY ./eclipse.desktop /user01/Desktop/
+RUN cd /opt/eclipse && \
+	unzip oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip && \
+	rm -rf /opt/eclipse/oepe-12.2.1.9-photon-distro-linux-gtk-x86_64.zip
+
+# # Post install
+RUN groupadd -g 1000 user01				 && \
+    useradd -u 1000 -g user01 user01	 && \
+    mkdir /user01/Desktop/code			 && \
+    chown 1000:1000 -R /opt 			 && \
+    chown 1000:1000 -R /user01 			 && \
+    rm -rf /opt/install_wls.sh
+
+#ENV HOME=/home/user01
+USER 1000
