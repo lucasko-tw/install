@@ -1,0 +1,4 @@
+http:
+  http://localhost:8080/my-web:
+    status: 200
+    timeout: 30000
