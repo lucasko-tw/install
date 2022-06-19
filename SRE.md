@@ -6,6 +6,14 @@
 
  2. Developers had to dedicate at least 5% of their work time to performing Ops responsibilities (answering on-call requests, dealing with tickets, monitoring service
 
+### Concept
+Service Level: Indicators (SLIs) are one or more quantifiable reliability measures of the software solution from the perspective of your customers. In a web solution, good examples would be the HTTP status codes (2xx, 5xx, etc) and the overall end-to-end latency.
+
+Service Level: Objectives (SLOs) are one or more targets for a specific SLI over a fixed period of time. In a web solution, that could be aiming for a maximum of 1% HTTP 5xx (server error) per month or achieving a under 200ms latency in every http request per day.
+
+Reliability: is a value that can be obtained by simply dividing the number of successful actions (how many times it worked well) by the total number of actions.
+
+Error budget: refers to the amount of unreliability that the stakeholders are willing to tolerate. In essence, it can be obtained by subtracting the reliability value from 100%.
 
 
 ### Technical benefits of DevOps + Case Study
@@ -27,16 +35,19 @@ Nordstrom:
 DoD:
  > Total development time reduced from weeks or days to minimal hours for 22 areas
 
+### SRE Tasks and Responsibilities
+1.Automation - Create automated processes for operational aspects 
+2.Configure Monitoring and Logging (Observability for System Performance)
+3.Error/Issue Detection
+4.Alert.  alert message should contain all the needed information to identify and fix the issue fast.
+5.Post-Incident Reviews 
 
-### Concept
-Service Level: Indicators (SLIs) are one or more quantifiable reliability measures of the software solution from the perspective of your customers. In a web solution, good examples would be the HTTP status codes (2xx, 5xx, etc) and the overall end-to-end latency.
-
-Service Level: Objectives (SLOs) are one or more targets for a specific SLI over a fixed period of time. In a web solution, that could be aiming for a maximum of 1% HTTP 5xx (server error) per month or achieving a under 200ms latency in every http request per day.
-
-Reliability: is a value that can be obtained by simply dividing the number of successful actions (how many times it worked well) by the total number of actions.
-
-Error budget: refers to the amount of unreliability that the stakeholders are willing to tolerate. In essence, it can be obtained by subtracting the reliability value from 100%.
-
+```
+Instead of:
+❌ "something is wrong in the cluster"
+a more detailed message like:
+✅ "service a in cluster b is throwing 500 error"
+```
 
 ###
 1. SRE accomplishes customer expectations on the functionality and valuable life of Performance Monitoring Tools.
